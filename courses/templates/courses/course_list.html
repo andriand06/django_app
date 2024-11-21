@@ -1,0 +1,38 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'courses/courses.css' %}" />
+  </head>
+  <body class="course-body">
+    {% if courses %}
+    <div class="container">
+      {% for course in courses %}
+      <div class="row">
+        <img
+          alt="img"
+          src="{{ MEDIA_URL }}{{ course.image }}"
+          width="360"
+          height="360"
+          class="column-33"
+        />
+        <div class="column-33">
+          <h1 class="xlarge-font">{{ course.name }}</h1>
+          <p class="course-paragraph">{{ course.description }}</p>
+          <p>{{course.total_enrollment}}</p>
+          <form action="{% url 'courses:enroll' course.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Enroll" />
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+      <hr class="course=separator" />
+    </div>
+    {% else %}
+    <p>No courses are available.</p>
+    {% endif %}
+  </body>
+</html>
